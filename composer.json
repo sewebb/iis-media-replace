@@ -1,0 +1,24 @@
+{
+	"name": "iis/manjo-media-replace",
+	"description": "Replace uploads in WordPress",
+	"keywords": ["wordpress", "iis", "media"],
+	"homepage": "https://internetstiftelsen.se",
+	"version": "0.1",
+	"authors": [
+		{
+			"name": "Måns Jonasson",
+			"email": "mans.jonasson@iis.se",
+			"homepage": "https://internetstiftelsen.se"
+		},
+		{
+			"name": "Jonas Nordström",
+			"email": "jonas.nordstrom@gmail.com",
+			"homepage": "https://wpbyran.se"
+		}
+	],
+	"type": "wordpress-plugin",
+	"require": {
+		"php": ">=7.0",
+		"composer/installers": "~1.0"
+	}
+}
