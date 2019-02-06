@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: Enable Media Replace
-Plugin URI: http://www.mansjonasson.se/enable-media-replace
+Plugin Name: Manjo Media Replace
+Plugin URI: https://github.com/sewebb/manjo-media-replace
 Description: Enable replacing media files by uploading a new file in the "Edit Media" section of the WordPress Media Library.
-Version: 3.2.1
+Version: 4.0
 Author: Måns Jonasson
 Author URI: http://www.mansjonasson.se
 
