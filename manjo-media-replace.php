@@ -18,24 +18,24 @@ http://www.gnu.org/licenses/gpl.html
  *
  * @author      Måns Jonasson  <http://www.mansjonasson.se>
  * @copyright   Måns Jonasson 13 sep 2010
- * @package     wordpress
+ * @package     WordPress
  * @subpackage  manjo-media-replace
  *
  */
 
-add_action('admin_init', 'manjo_media_replace_init');
-add_action('admin_menu', 'emr_menu');
-add_filter('attachment_fields_to_edit', 'manjo_media_replace', 10, 2);
-add_filter('media_row_actions', 'add_media_action', 10, 2);
+add_action( 'admin_init', 'manjo_media_replace_init' );
+add_action( 'admin_menu', 'emr_menu' );
+add_filter( 'attachment_fields_to_edit', 'manjo_media_replace', 10, 2 );
+add_filter( 'media_row_actions', 'add_media_action', 10, 2 );
 
-add_shortcode('file_modified', 'emr_get_modified_date');
+add_shortcode( 'file_modified', 'emr_get_modified_date' );
 
 /**
  * Register this file in WordPress so we can call it with a ?page= GET var.
  * To suppress it in the menu we give it an empty menu title.
  */
 function emr_menu() {
-	add_submenu_page(NULL, __("Replace media", "manjo-media-replace"), '','upload_files', 'manjo-media-replace/manjo-media-replace', 'emr_options');
+	add_submenu_page( null, __( 'Replace media', 'manjo-media-replace' ), '', 'upload_files', 'manjo-media-replace/manjo-media-replace', 'emr_options' );
 }
 
 /**
@@ -48,20 +48,27 @@ function manjo_media_replace_init() {
 
 /**
  * Add some new fields to the attachment edit panel.
- * @param array form fields edit panel
+ *
+ * @param array   $form_fields form fields edit panel
+ * @param WP_Post $post The post
  * @return array form fields with manjo-media-replace fields added
  */
-function manjo_media_replace( $form_fields, $post ) {
+function manjo_media_replace( array $form_fields, WP_Post $post ): array {
+	$url     = admin_url( 'upload.php?page=manjo-media-replace/manjo-media-replace.php&action=media_replace&attachment_id=' . $post->ID );
+	$action  = 'media_replace';
+	$editurl = wp_nonce_url( $url, $action );
 
-	$url = admin_url( "upload.php?page=manjo-media-replace/manjo-media-replace.php&action=media_replace&attachment_id=" . $post->ID);
-	$action = "media_replace";
-  	$editurl = wp_nonce_url( $url, $action );
-
-	if (FORCE_SSL_ADMIN) {
-		$editurl = str_replace("http:", "https:", $editurl);
+	if ( FORCE_SSL_ADMIN ) {
+		$editurl = str_replace( 'http:', 'https:', $editurl );
 	}
-	$link = "href=\"$editurl\"";
-	$form_fields["manjo-media-replace"] = array("label" => __("Replace media", "manjo-media-replace"), "input" => "html", "html" => "<p><a class='button-secondary'$link>" . __("Upload a new file", "manjo-media-replace") . "</a></p>", "helps" => __("To replace the current file, click the link and upload a replacement.", "manjo-media-replace"));
+
+	$link                               = "href=\"$editurl\"";
+	$form_fields['manjo-media-replace'] = [
+		'label' => __( 'Replace media', 'manjo-media-replace' ),
+		'input' => 'html',
+		'html'  => '<p><a class="button-secondary"' . $link . '>' . __( 'Upload a new file', 'manjo-media-replace' ) . '</a></p>',
+		'helps' => __( 'To replace the current file, click the link and upload a replacement.', 'manjo-media-replace' ),
+	];
 
 	return $form_fields;
 }
@@ -73,17 +80,20 @@ function manjo_media_replace( $form_fields, $post ) {
  */
 function emr_options() {
 
-	if ( isset( $_GET['action'] ) && $_GET['action'] == 'media_replace' ) {
-    	check_admin_referer( 'media_replace' ); // die if invalid or missing nonce
-		if ( array_key_exists("attachment_id", $_GET) && (int) $_GET["attachment_id"] > 0) {
-			include("popup.php");
+	if ( isset( $_GET['action'] ) && 'media_replace' == $_GET['action'] ) {
+		check_admin_referer( 'media_replace' ); // die if invalid or missing nonce
+
+		if ( array_key_exists( 'attachment_id', $_GET ) && (int) $_GET['attachment_id'] > 0 ) {
+			include 'popup.php';
 		}
 	}
 
-	if ( isset( $_GET['action'] ) && $_GET['action'] == 'media_replace_upload' ) {
-		$plugin_url =  str_replace("manjo-media-replace.php", "", __FILE__);
-    	check_admin_referer( 'media_replace_upload' ); // die if invalid or missing nonce
-		require_once($plugin_url . "upload.php");
+	if ( isset( $_GET['action'] ) && 'media_replace_upload' == $_GET['action'] ) {
+		$plugin_url = str_replace( 'manjo-media-replace.php', '', __FILE__ );
+
+		check_admin_referer( 'media_replace_upload' ); // die if invalid or missing nonce
+
+		require_once $plugin_url . 'upload.php';
 	}
 
 }
@@ -91,46 +101,60 @@ function emr_options() {
 /**
  * Function called by filter 'media_row_actions'
  * Enables linking to EMR straight from the media library
-*/
-function add_media_action( $actions, $post) {
-	$url = admin_url( "upload.php?page=manjo-media-replace/manjo-media-replace.php&action=media_replace&attachment_id=" . $post->ID);
-	$action = "media_replace";
-  	$editurl = wp_nonce_url( $url, $action );
+ *
+ * @param array   $actions The actions
+ * @param WP_Post $post The post
+ * @return array
+ */
+function add_media_action( array $actions, WP_Post $post ): array {
+	$url     = admin_url( 'upload.php?page=manjo-media-replace/manjo-media-replace.php&action=media_replace&attachment_id=' . $post->ID );
+	$action  = 'media_replace';
+	$editurl = wp_nonce_url( $url, $action );
 
-	if (FORCE_SSL_ADMIN) {
-		$editurl = str_replace("http:", "https:", $editurl);
+	if ( FORCE_SSL_ADMIN ) {
+		$editurl = str_replace( 'http:', 'https:', $editurl );
 	}
+
 	$link = "href=\"$editurl\"";
 
-	$newaction['adddata'] = '<a ' . $link . ' aria-label="' . __("Replace media", "manjo-media-replace") . '" rel="permalink">' . __("Replace media", "manjo-media-replace") . '</a>';
-	return array_merge($actions,$newaction);
+	$newaction['adddata'] = '<a ' . $link . ' aria-label="' . __( 'Replace media', 'manjo-media-replace' ) . '" rel="permalink">' . __( 'Replace media', 'manjo-media-replace' ) . '</a>';
+
+	return array_merge( $actions, $newaction );
 }
 
 /**
  * Shorttag function to show the media file modification date/time.
- * @param array shorttag attributes
+ *
+ * @param array $atts shorttag attributes
  * @return string content / replacement shorttag
  */
-function emr_get_modified_date($atts) {
-	$id=0;
-	$format= '';
+function emr_get_modified_date( array $atts ) {
+	$id     = 0;
+	$format = '';
 
-	extract(shortcode_atts(array(
-		'id' => '',
-		'format' => get_option('date_format') . " " . get_option('time_format'),
-	), $atts));
+	extract(
+		shortcode_atts(
+			array(
+				'id'     => '',
+				'format' => get_option( 'date_format' ) . ' ' . get_option( 'time_format' ),
+			),
+			$atts
+		)
+	);
 
-	if ($id == '') return false;
+	if ( $id == '' ) {
+return false;
+	}
 
-    // Get path to file
-	$current_file = get_attached_file($id);
+	// Get path to file
+	$current_file = get_attached_file( $id );
 
 	if ( ! file_exists( $current_file ) ) {
 		return false;
 	}
 
 	// Get file modification time
-	$filetime = filemtime($current_file);
+	$filetime = filemtime( $current_file );
 
 	if ( false !== $filetime ) {
 		// do date conversion
@@ -142,12 +166,14 @@ function emr_get_modified_date($atts) {
 
 // Add Last replaced by EMR plugin in the media edit screen metabox - Thanks Jonas Lundman (http://wordpress.org/support/topic/add-filter-hook-suggestion-to)
 function ua_admin_date_replaced_media_on_edit_media_screen() {
-	if( !function_exists( 'manjo_media_replace' ) ) return;
+	if ( ! function_exists( 'manjo_media_replace' ) ) {
+return;
+	}
 	global $post;
-	$id = $post->ID;
+	$id        = $post->ID;
 	$shortcode = "[file_modified id=$id]";
 
-	$file_modified_time = do_shortcode($shortcode);
+	$file_modified_time = do_shortcode( $shortcode );
 	if ( ! $file_modified_time ) {
 		return;
 	}
