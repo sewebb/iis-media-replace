@@ -56,12 +56,6 @@ $current_filename = substr( $current_filename, ( strrpos( $current_filename, '/'
 
 		<label for="replace_type_1"><input CHECKED id="replace_type_1" type="radio" name="replace_type" value="replace"> <?php echo __( 'Just replace the file', 'manjo-media-replace' ); ?></label>
 		<p class="howto"><?php printf( __( 'Note: This option requires you to upload a file of the same type (%1$s) as the one you are replacing. The name of the attachment will stay the same (%2$s) no matter what the file you upload is called.', 'manjo-media-replace' ), $current_filetype, $current_filename ); ?></p>
-
-		<?php if ( apply_filters( 'emr_enable_replace_and_search', true ) ) : ?>
-		<label for="replace_type_2"><input id="replace_type_2" type="radio" name="replace_type" value="replace_and_search"> <?php echo __( 'Replace the file, use new file name and update all links', 'manjo-media-replace' ); ?></label>
-		<p class="howto"><?php printf( __( 'Note: If you check this option, the name and type of the file you are about to upload will replace the old file. All links pointing to the current file (%s) will be updated to point to the new file name.', 'manjo-media-replace' ), $current_filename ); ?></p>
-		<p class="howto"><?php echo __( 'Please note that if you upload a new image, only embeds/links of the original size image will be replaced in your posts.', 'manjo-media-replace' ); ?></p>
-		<?php endif; ?>
 	<?php else : ?>
 		<input type="hidden" name="replace_type" value="replace" />
 	<?php endif; ?>
