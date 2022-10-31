@@ -1,7 +1,7 @@
 <?php
 /*
-Plugin Name: Manjo Media Replace
-Plugin URI: https://github.com/sewebb/manjo-media-replace
+Plugin Name: IIS Media Replace
+Plugin URI: https://github.com/sewebb/iis-media-replace
 Description: Enable replacing media files by uploading a new file in the "Edit Media" section of the WordPress Media Library.
 Version: 4.2
 Author: Måns Jonasson
@@ -19,13 +19,13 @@ http://www.gnu.org/licenses/gpl.html
  * @author      Måns Jonasson  <http://www.mansjonasson.se>
  * @copyright   Måns Jonasson 13 sep 2010
  * @package     WordPress
- * @subpackage  manjo-media-replace
+ * @subpackage  iis-media-replace
  *
  */
 
-add_action( 'admin_init', 'manjo_media_replace_init' );
+add_action( 'admin_init', 'iis_media_replace_init' );
 add_action( 'admin_menu', 'emr_menu' );
-add_filter( 'attachment_fields_to_edit', 'manjo_media_replace', 10, 2 );
+add_filter( 'attachment_fields_to_edit', 'iis_media_replace', 10, 2 );
 add_filter( 'media_row_actions', 'add_media_action', 10, 2 );
 
 add_shortcode( 'file_modified', 'emr_get_modified_date' );
@@ -35,15 +35,15 @@ add_shortcode( 'file_modified', 'emr_get_modified_date' );
  * To suppress it in the menu we give it an empty menu title.
  */
 function emr_menu() {
-	add_submenu_page( null, __( 'Replace media', 'manjo-media-replace' ), '', 'upload_files', 'manjo-media-replace/manjo-media-replace', 'emr_options' );
+	add_submenu_page( null, __( 'Replace media', 'iis-media-replace' ), '', 'upload_files', 'iis-media-replace/iis-media-replace', 'emr_options' );
 }
 
 /**
  * Initialize this plugin. Called by 'admin_init' hook.
  * Only languages files needs loading during init.
  */
-function manjo_media_replace_init() {
-	load_plugin_textdomain( 'manjo-media-replace', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+function iis_media_replace_init() {
+	load_plugin_textdomain( 'iis-media-replace', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 }
 
 /**
@@ -51,10 +51,10 @@ function manjo_media_replace_init() {
  *
  * @param array   $form_fields form fields edit panel
  * @param WP_Post $post The post
- * @return array form fields with manjo-media-replace fields added
+ * @return array form fields with iis-media-replace fields added
  */
-function manjo_media_replace( array $form_fields, WP_Post $post ): array {
-	$url     = admin_url( 'upload.php?page=manjo-media-replace/manjo-media-replace.php&action=media_replace&attachment_id=' . $post->ID );
+function iis_media_replace( array $form_fields, WP_Post $post ): array {
+	$url     = admin_url( 'upload.php?page=iis-media-replace/iis-media-replace.php&action=media_replace&attachment_id=' . $post->ID );
 	$action  = 'media_replace';
 	$editurl = wp_nonce_url( $url, $action );
 
@@ -63,11 +63,11 @@ function manjo_media_replace( array $form_fields, WP_Post $post ): array {
 	}
 
 	$link                               = "href=\"$editurl\"";
-	$form_fields['manjo-media-replace'] = [
-		'label' => __( 'Replace media', 'manjo-media-replace' ),
+	$form_fields['iis-media-replace'] = [
+		'label' => __( 'Replace media', 'iis-media-replace' ),
 		'input' => 'html',
-		'html'  => '<p><a class="button-secondary"' . $link . '>' . __( 'Upload a new file', 'manjo-media-replace' ) . '</a></p>',
-		'helps' => __( 'To replace the current file, click the link and upload a replacement.', 'manjo-media-replace' ),
+		'html'  => '<p><a class="button-secondary"' . $link . '>' . __( 'Upload a new file', 'iis-media-replace' ) . '</a></p>',
+		'helps' => __( 'To replace the current file, click the link and upload a replacement.', 'iis-media-replace' ),
 	];
 
 	return $form_fields;
@@ -76,7 +76,7 @@ function manjo_media_replace( array $form_fields, WP_Post $post ): array {
 /**
  * Load the replace media panel.
  * Panel is show on the action 'media-replace' and a given attachement.
- * Called by GET var ?page=manjo-media-replace/manjo-media-replace.php
+ * Called by GET var ?page=iis-media-replace/iis-media-replace.php
  */
 function emr_options() {
 
@@ -89,7 +89,7 @@ function emr_options() {
 	}
 
 	if ( isset( $_GET['action'] ) && 'media_replace_upload' == $_GET['action'] ) {
-		$plugin_url = str_replace( 'manjo-media-replace.php', '', __FILE__ );
+		$plugin_url = str_replace( 'iis-media-replace.php', '', __FILE__ );
 
 		check_admin_referer( 'media_replace_upload' ); // die if invalid or missing nonce
 
@@ -107,7 +107,7 @@ function emr_options() {
  * @return array
  */
 function add_media_action( array $actions, WP_Post $post ): array {
-	$url     = admin_url( 'upload.php?page=manjo-media-replace/manjo-media-replace.php&action=media_replace&attachment_id=' . $post->ID );
+	$url     = admin_url( 'upload.php?page=iis-media-replace/iis-media-replace.php&action=media_replace&attachment_id=' . $post->ID );
 	$action  = 'media_replace';
 	$editurl = wp_nonce_url( $url, $action );
 
@@ -117,7 +117,7 @@ function add_media_action( array $actions, WP_Post $post ): array {
 
 	$link = "href=\"$editurl\"";
 
-	$newaction['adddata'] = '<a ' . $link . ' aria-label="' . __( 'Replace media', 'manjo-media-replace' ) . '" rel="permalink">' . __( 'Replace media', 'manjo-media-replace' ) . '</a>';
+	$newaction['adddata'] = '<a ' . $link . ' aria-label="' . __( 'Replace media', 'iis-media-replace' ) . '" rel="permalink">' . __( 'Replace media', 'iis-media-replace' ) . '</a>';
 
 	return array_merge( $actions, $newaction );
 }
@@ -166,7 +166,7 @@ return false;
 
 // Add Last replaced by EMR plugin in the media edit screen metabox - Thanks Jonas Lundman (http://wordpress.org/support/topic/add-filter-hook-suggestion-to)
 function ua_admin_date_replaced_media_on_edit_media_screen() {
-	if ( ! function_exists( 'manjo_media_replace' ) ) {
+	if ( ! function_exists( 'iis_media_replace' ) ) {
 return;
 	}
 	global $post;
@@ -179,7 +179,7 @@ return;
 	}
 	?>
 	<div class="misc-pub-section curtime">
-		<span id="timestamp"><?php _e( 'Revised', 'manjo-media-replace' ); ?>: <b><?php echo $file_modified_time; ?></b></span>
+		<span id="timestamp"><?php _e( 'Revised', 'iis-media-replace' ); ?>: <b><?php echo $file_modified_time; ?></b></span>
 	</div>
 	<?php
 }
