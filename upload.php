@@ -378,7 +378,7 @@ do_action( 'enable-media-replace-upload-done', $new_guid, $current_guid ); }
 } else {
 	//TODO Better error handling when no file is selected.
 	//For now just go back to media management
-	$returnurl = admin_url( '/wp-admin/upload.php' );
+	$returnurl = admin_url( 'upload.php' );
 }
 
 if ( FORCE_SSL_ADMIN ) {

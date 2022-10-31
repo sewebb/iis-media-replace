@@ -3,7 +3,7 @@
 	"description": "Replace uploads in WordPress",
 	"keywords": ["wordpress", "iis", "media"],
 	"homepage": "https://internetstiftelsen.se",
-	"version": "0.1",
+	"version": "4.2",
 	"authors": [
 		{
 			"name": "Måns Jonasson",
