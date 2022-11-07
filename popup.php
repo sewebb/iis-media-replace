@@ -49,16 +49,8 @@ $current_filename = substr( $current_filename, ( strrpos( $current_filename, '/'
 
 		<input type="file" name="userfile" />
 
-		<?php do_action( 'emr_before_replace_type_options' ); ?>
-
-	<?php if ( apply_filters( 'emr_display_replace_type_options', true ) ) : ?>
-		<p><?php echo __( 'Select media replacement type:', 'iis-media-replace' ); ?></p>
-
-		<label for="replace_type_1"><input CHECKED id="replace_type_1" type="radio" name="replace_type" value="replace"> <?php echo __( 'Just replace the file', 'iis-media-replace' ); ?></label>
-		<p class="howto"><?php printf( __( 'Note: This option requires you to upload a file of the same type (%1$s) as the one you are replacing. The name of the attachment will stay the same (%2$s) no matter what the file you upload is called.', 'iis-media-replace' ), $current_filetype, $current_filename ); ?></p>
-	<?php else : ?>
-		<input type="hidden" name="replace_type" value="replace" />
-	<?php endif; ?>
-		<input type="submit" class="button" value="<?php echo __( 'Upload', 'iis-media-replace' ); ?>" /> <a href="#" onclick="history.back();"><?php echo __( 'Cancel', 'iis-media-replace' ); ?></a>
+		<p>
+			<input type="submit" class="button" value="<?php echo __( 'Upload', 'iis-media-replace' ); ?>" /> <a href="#" onclick="history.back();"><?php echo __( 'Cancel', 'iis-media-replace' ); ?></a>
+		</p>
 	</form>
 </div>

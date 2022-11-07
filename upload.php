@@ -78,8 +78,6 @@ $current_file     = str_replace( '//', '/', $current_file );
 $current_filename = basename( $current_file );
 $current_metadata = wp_get_attachment_metadata( $_POST['ID'] );
 
-$replace_type = $_POST['replace_type'];
-
 if ( is_uploaded_file( $_FILES['userfile']['tmp_name'] ) ) {
 
 	// New method for validating that the uploaded file is allowed, using WP:s internal wp_check_filetype_and_ext() function.
@@ -97,24 +95,22 @@ if ( is_uploaded_file( $_FILES['userfile']['tmp_name'] ) ) {
 	// save original file permissions
 	$original_file_perms = fileperms( $current_file ) & 0777;
 
-	if ( $replace_type == 'replace' ) {
-		// Drop-in replace and we don't even care if you uploaded something that is the wrong file-type.
-		// That's your own fault, because we warned you!
+	// Drop-in replace and we don't even care if you uploaded something that is the wrong file-type.
+	// That's your own fault, because we warned you!
 
-		emr_delete_current_files( $current_file, $current_metadata );
+	emr_delete_current_files( $current_file, $current_metadata );
 
-		// Move new file to old location/name
-		move_uploaded_file( $_FILES['userfile']['tmp_name'], $current_file );
+	// Move new file to old location/name
+	move_uploaded_file( $_FILES['userfile']['tmp_name'], $current_file );
 
-		// Chmod new file to original file permissions
-		@chmod( $current_file, $original_file_perms );
+	// Chmod new file to original file permissions
+	@chmod( $current_file, $original_file_perms );
 
-		// Make thumb and/or update metadata
-		wp_update_attachment_metadata( (int) $_POST['ID'], wp_generate_attachment_metadata( (int) $_POST['ID'], $current_file ) );
+	// Make thumb and/or update metadata
+	wp_update_attachment_metadata( (int) $_POST['ID'], wp_generate_attachment_metadata( (int) $_POST['ID'], $current_file ) );
 
-		// Trigger possible updates on CDN and other plugins
-		update_attached_file( (int) $_POST['ID'], $current_file );
-	}
+	// Trigger possible updates on CDN and other plugins
+	update_attached_file( (int) $_POST['ID'], $current_file );
 
 	// echo "Updated: " . $number_of_updates;
 
