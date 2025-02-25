@@ -1,4 +1,4 @@
-# Manjo Media Replace
+# IIS Media Replace
 
 This plugin allows you to replace a file in your media library by uploading a new file in its place. No more deleting, renaming and re-uploading files!
 

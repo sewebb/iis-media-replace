@@ -6,14 +6,24 @@
 	"version": "4.2",
 	"authors": [
 		{
-			"name": "Måns Jonasson",
-			"email": "mans.jonasson@iis.se",
-			"homepage": "https://internetstiftelsen.se"
+			"name": "Tobias Bleckert",
+			"email": "hola@tobiasbleckert.se",
+			"homepage": "https://tobiasbleckert.se"
 		},
 		{
 			"name": "Jonas Nordström",
 			"email": "jonas.nordstrom@gmail.com",
 			"homepage": "https://wpbyran.se"
+		},
+		{
+			"name": "Robert Hedman",
+			"email": "robert.hedman@internetstiftelsen.se",
+			"homepage": "https://internetstiftelsen.se"
+		},
+		{
+			"name": "Richard Brattlund",
+			"email": "richard.brattlund@internetstiftelsen.se",
+			"homepage": "https://internetstiftelsen.se"
 		}
 	],
 	"type": "wordpress-plugin",

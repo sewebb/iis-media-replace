@@ -1,11 +1,10 @@
 <?php
 /*
 Plugin Name: IIS Media Replace
-Plugin URI: https://github.com/sewebb/iis-media-replace
 Description: Enable replacing media files by uploading a new file in the "Edit Media" section of the WordPress Media Library.
 Version: 4.2
-Author: Måns Jonasson
-Author URI: http://www.mansjonasson.se
+Author: Jonas Nordström
+Author URI: https://internetstiftelsen.se
 
 Dual licensed under the MIT and GPL licenses:
 http://www.opensource.org/licenses/mit-license.php
@@ -16,8 +15,7 @@ http://www.gnu.org/licenses/gpl.html
  * Main Plugin file
  * Set action hooks and add shortcode
  *
- * @author      Måns Jonasson  <http://www.mansjonasson.se>
- * @copyright   Måns Jonasson 13 sep 2010
+ * @author      Jonas Nordström  <https://internetstiftelsen.se>
  * @package     WordPress
  * @subpackage  iis-media-replace
  *
